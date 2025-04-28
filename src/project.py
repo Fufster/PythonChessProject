@@ -32,10 +32,53 @@ class Piece:
                     return '♕'
                 case 'King':
                     return '♔'
+    
+    def getMoves(self, location, Pieces):
+        moves = []
+        match self.rank:
+                
+                case 'Pawn':
+                    if self.color == 'White':
+                        return moves
+                    else:
+                        return moves
+                
+                case 'Bishop':
+                    return moves
+                
+                case 'Knight':
+                    if location[0]-2 >= 0 and location[1]-1 >= 0:
+                        moves.append((location[0]-2, location[1]-1))
+                    if location[0]-2 >= 0 and location[1]+1 <= 7:
+                        moves.append((location[0]-2, location[1]+1))
+                    if location[0]+2 <= 7 and location[1]-1 >= 0:
+                        moves.append((location[0]+2, location[1]-1))
+                    if location[0]+2 <= 7 and location[1]+1 <= 7:
+                        moves.append((location[0]+2, location[1]+1))
+                    if location[0]+1 <= 7 and location[1]+2 <= 7:
+                        moves.append((location[0]+1, location[1]+2))
+                    if location[0]-1 >= 0 and location[1]+2 <= 7:
+                        moves.append((location[0]-1, location[1]+2))
+                    if location[0]+1 <= 7 and location[1]-2 >= 0:
+                        moves.append((location[0]+1, location[1]-2))
+                    if location[0]-1 >= 0 and location[1]-2 >= 0:
+                        moves.append((location[0]-1, location[1]-2))
+                    for i in range(len(moves)):
+                        moves[i] = movesConvert(moves[i])
+                    return moves
+                
+                case 'Rook':
+                    return moves
+                
+                case 'Queen':
+                    return moves
+                
+                case 'King':
+                    return moves
             
 def createBoard():
     Board = [[0 for x in range(8)] for y in range(8)]
-    Pieces = [[0 for x in range(8)] for y in range(8)]
+    Pieces = [[Piece('E', 'Empty') for x in range(8)] for y in range(8)]
     #board
     for x in range(8):
         for y in range(8):
@@ -89,7 +132,7 @@ def inputConvert(input):
             x = 6
         case 'H':
             x = 7
-    
+   
     match input[1].upper():
         case '1':
             y = 7
@@ -109,15 +152,50 @@ def inputConvert(input):
             y = 0
     
     return y, x
-        
 
-
+def movesConvert(move):
+    match move[1]:
+        case 0:
+            x = 'A'
+        case 1:
+            x = 'B'
+        case 2:
+            x = 'C'
+        case 3:
+            x = 'D'
+        case 4:
+            x = 'E'
+        case 5:
+            x = 'F'
+        case 6:
+            x = 'G'
+        case 7:
+            x = 'H'
+    
+    match move[0]:
+        case 0:
+            y = 8
+        case 1:
+            y = 7
+        case 2:
+            y = 6
+        case 3:
+            y = 5
+        case 4:
+            y = 4
+        case 5:
+            y = 3
+        case 6:
+            y = 2
+        case 7:
+            y = 1
+    return f"{x}{y}"
 
 def printBoard(Board, Pieces):
     
     for x in range(8):
         for y in range(8):
-            if Pieces[x][y] != 0:
+            if Pieces[x][y].rank != 'Empty':
                 print(Pieces[x][y].getIcon().center(2), end="")
             else:
                 print(Board[x][y], end="")
@@ -126,8 +204,11 @@ def printBoard(Board, Pieces):
 def main():
     Board, Pieces = createBoard()
     printBoard(Board, Pieces)
-    testMove = input()
-    print(inputConvert(testMove))
+    currentMove = input()
+    currentLocation = inputConvert(currentMove)
+    currentPiece = Pieces[currentLocation[0]][currentLocation[1]]
+    print(currentPiece.rank)
+    print(f"Possible Moves: {currentPiece.getMoves(currentLocation, Pieces)}")
 
 
 if __name__ == "__main__":
