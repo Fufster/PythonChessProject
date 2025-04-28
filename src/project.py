@@ -39,12 +39,15 @@ class Piece:
                 
                 case 'Pawn':
                     if self.color == 'White':
-                        return moves
+                        if len(moves) > 0:
+                            return moves
                     else:
-                        return moves
+                        if len(moves) > 0:
+                            return moves
                 
                 case 'Bishop':
-                    return moves
+                    if len(moves) > 0:
+                        return moves
                 
                 case 'Knight':
                     if location[0]-2 >= 0 and location[1]-1 >= 0:
@@ -65,17 +68,21 @@ class Piece:
                         moves.append((location[0]-1, location[1]-2))
                     for i in range(len(moves)):
                         moves[i] = movesConvert(moves[i])
-                    return moves
+                    if len(moves) > 0:
+                        return moves
                 
                 case 'Rook':
-                    return moves
-                
+                    if len(moves) > 0:
+                        return moves
+                    
                 case 'Queen':
-                    return moves
-                
+                    if len(moves) > 0:
+                        return moves
+                    
                 case 'King':
-                    return moves
-            
+                    if len(moves) > 0:
+                        return moves
+                    
 def createBoard():
     Board = [[0 for x in range(8)] for y in range(8)]
     Pieces = [[Piece('E', 'Empty') for x in range(8)] for y in range(8)]
@@ -205,7 +212,16 @@ def main():
     Board, Pieces = createBoard()
     printBoard(Board, Pieces)
     currentMove = input()
-    currentLocation = inputConvert(currentMove)
+    isPossible = True
+    while True:
+        try:
+            currentLocation = inputConvert(currentMove)
+        except UnboundLocalError:
+            print("That space does not exist. Please enter a new one:")
+            currentMove = input()
+        else:
+            break
+
     currentPiece = Pieces[currentLocation[0]][currentLocation[1]]
     print(currentPiece.rank)
     print(f"Possible Moves: {currentPiece.getMoves(currentLocation, Pieces)}")
