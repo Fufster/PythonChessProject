@@ -4,7 +4,6 @@ class Piece:
         self.rank = rank
     
     def getIcon(self):
-        moves = []
         if self.color == 'W':
             match self.rank:
                 case 'Pawn':
@@ -72,6 +71,48 @@ def createBoard():
 
     return Board, Pieces
 
+def inputConvert(input):
+    match input[0].upper():
+        case 'A':
+            x = 0
+        case 'B':
+            x = 1
+        case 'C':
+            x = 2
+        case 'D':
+            x = 3
+        case 'E':
+            x = 4
+        case 'F':
+            x = 5
+        case 'G':
+            x = 6
+        case 'H':
+            x = 7
+    
+    match input[1].upper():
+        case '1':
+            y = 7
+        case '2':
+            y = 6
+        case '3':
+            y = 5
+        case '4':
+            y = 4
+        case '5':
+            y = 3
+        case '6':
+            y = 2
+        case '7':
+            y = 1
+        case '8':
+            y = 0
+    
+    return y, x
+        
+
+
+
 def printBoard(Board, Pieces):
     
     for x in range(8):
@@ -85,6 +126,9 @@ def printBoard(Board, Pieces):
 def main():
     Board, Pieces = createBoard()
     printBoard(Board, Pieces)
+    testMove = input()
+    print(inputConvert(testMove))
+
 
 if __name__ == "__main__":
     main()
