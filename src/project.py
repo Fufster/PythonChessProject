@@ -37,49 +37,129 @@ class Piece:
         moves = []
         match self.rank:
                 
-                case 'Pawn':
-                    if self.color == 'White':
-                        if len(moves) > 0:
-                            return moves
-                    else:
-                        if len(moves) > 0:
-                            return moves
-                
-                case 'Bishop':
-                    if len(moves) > 0:
-                        return moves
-                
-                case 'Knight':
-                    if location[0]-2 >= 0 and location[1]-1 >= 0:
-                        moves.append((location[0]-2, location[1]-1))
-                    if location[0]-2 >= 0 and location[1]+1 <= 7:
-                        moves.append((location[0]-2, location[1]+1))
-                    if location[0]+2 <= 7 and location[1]-1 >= 0:
-                        moves.append((location[0]+2, location[1]-1))
-                    if location[0]+2 <= 7 and location[1]+1 <= 7:
-                        moves.append((location[0]+2, location[1]+1))
-                    if location[0]+1 <= 7 and location[1]+2 <= 7:
-                        moves.append((location[0]+1, location[1]+2))
-                    if location[0]-1 >= 0 and location[1]+2 <= 7:
-                        moves.append((location[0]-1, location[1]+2))
-                    if location[0]+1 <= 7 and location[1]-2 >= 0:
-                        moves.append((location[0]+1, location[1]-2))
-                    if location[0]-1 >= 0 and location[1]-2 >= 0:
-                        moves.append((location[0]-1, location[1]-2))
+            case 'Pawn':
+                if self.color == 'W':
+                    if location[0]-1 >= 0:
+                        if Pieces[location[0]-1][location[1]].color == 'E':
+                            moves.append((location[0]-1, location[1]))
+                            if location[0] == 6 and Pieces[4][location[1]].color == 'E':
+                                moves.append((location[0]-2, location[1]))
+                        if location[1]-1 >= 0:
+                            if Pieces[location[0]-1][location[1]-1].color == 'B':
+                                moves.append((location[0]-1, location[1]-1))
+                        if location[1]+1 <= 7:
+                            if Pieces[location[0]-1][location[1]+1].color == 'B':
+                                moves.append((location[0]-1, location[1]+1))
+                if self.color == 'B':
+                    if location[0]+1 <= 7:
+                        if Pieces[location[0]+1][location[1]].color == 'E':
+                            moves.append((location[0]+1, location[1]))
+                            if location[0] == 1 and Pieces[3][location[1]].color == 'E':
+                                moves.append((location[0]+2, location[1]))
+                        if location[1]-1 >= 0:
+                            if Pieces[location[0]+1][location[1]-1].color == 'W':
+                                moves.append((location[0]+1, location[1]-1))
+                        if location[1]+1 <= 7:
+                            if Pieces[location[0]+1][location[1]+1].color == 'W':
+                                moves.append((location[0]+1, location[1]+1))
+                for i in range(len(moves)):
+                    moves[i] = movesConvert(moves[i])
+                if len(moves) > 0:
+                    return moves
+                else:
                     for i in range(len(moves)):
                         moves[i] = movesConvert(moves[i])
                     if len(moves) > 0:
                         return moves
+            
+            case 'Bishop':
+                for i in range(len(moves)):
+                    moves[i] = movesConvert(moves[i])
+                if len(moves) > 0:
+                    return moves
+            
+            case 'Knight':
+                if location[0]-2 >= 0 and location[1]-1 >= 0:
+                    if Pieces[location[0]-2][location[1]-1].color != self.color:
+                        moves.append((location[0]-2, location[1]-1))
+                if location[0]-2 >= 0 and location[1]+1 <= 7:
+                    if Pieces[location[0]-2][location[1]+1].color != self.color:
+                        moves.append((location[0]-2, location[1]+1))
+                if location[0]+2 <= 7 and location[1]-1 >= 0:
+                    if Pieces[location[0]+2][location[1]-1].color != self.color:
+                        moves.append((location[0]+2, location[1]-1))
+                if location[0]+2 <= 7 and location[1]+1 <= 7:
+                    if Pieces[location[0]+2][location[1]+1].color != self.color:
+                        moves.append((location[0]+2, location[1]+1))
+                if location[0]+1 <= 7 and location[1]+2 <= 7:
+                    if Pieces[location[0]+1][location[1]+2].color != self.color:
+                        moves.append((location[0]+1, location[1]+2))
+                if location[0]-1 >= 0 and location[1]+2 <= 7:
+                    if Pieces[location[0]-1][location[1]+2].color != self.color:
+                        moves.append((location[0]-1, location[1]+2))
+                if location[0]+1 <= 7 and location[1]-2 >= 0:
+                    if Pieces[location[0]+1][location[1]-2].color != self.color:
+                        moves.append((location[0]+1, location[1]-2))
+                if location[0]-1 >= 0 and location[1]-2 >= 0:
+                    if Pieces[location[0]-1][location[1]-2].color != self.color:
+                        moves.append((location[0]-1, location[1]-2))
+                for i in range(len(moves)):
+                    moves[i] = movesConvert(moves[i])
+                if len(moves) > 0:
+                    return moves
+            
+            case 'Rook':
+                ix = 1
+                iy = 1
+                while ix < (8 - location[1]):
+                    if Pieces[location[0]][location[1]+ix].color == 'E':
+                        moves.append((location[0], location[1]+ix))
+                    else: 
+                        if Pieces[location[0]][location[1]+ix].color == self.color:
+                            break
+                        if Pieces[location[0]][location[1]+ix].color != self.color:
+                            moves.append((location[0], location[1]+ix))
+                            break
+                    ix = ix + 1
+                for i in range(len(moves)):
+                    moves[i] = movesConvert(moves[i])
+                if len(moves) > 0:
+                    return moves
                 
-                case 'Rook':
-                    if len(moves) > 0:
-                        return moves
+            case 'Queen':
+                for i in range(len(moves)):
+                    moves[i] = movesConvert(moves[i])
+                if len(moves) > 0:
+                    return moves
+                
+            case 'King':
+                    if location[0]-1 >= 0:
+                        if Pieces[location[0]-1][location[1]].color != self.color:
+                            moves.append((location[0]-1, location[1]))
+                        if location[1]-1 >= 0:
+                            if Pieces[location[0]-1][location[1]-1].color != self.color:
+                                moves.append((location[0]-1, location[1]-1))
+                        if location[1]+1 <= 7:
+                            if Pieces[location[0]-1][location[1]+1].color != self.color:
+                                moves.append((location[0]-1, location[1]+1))
+                    if location[0]+1 <= 7:
+                        if Pieces[location[0]+1][location[1]].color != self.color:
+                            moves.append((location[0]+1, location[1]))
+                        if location[1]-1 >= 0:
+                            if Pieces[location[0]+1][location[1]-1].color != self.color:
+                                moves.append((location[0]+1, location[1]-1))
+                        if location[1]+1 <= 7:
+                            if Pieces[location[0]+1][location[1]+1].color != self.color:
+                                moves.append((location[0]+1, location[1]+1))
+                    if location[1]-1 >= 0:
+                        if Pieces[location[0]][location[1]-1].color != self.color:
+                            moves.append((location[0], location[1]-1))
+                    if location[1]+1 <= 7:
+                        if Pieces[location[0]][location[1]+1].color != self.color:
+                            moves.append((location[0], location[1]+1))
                     
-                case 'Queen':
-                    if len(moves) > 0:
-                        return moves
-                    
-                case 'King':
+                    for i in range(len(moves)):
+                        moves[i] = movesConvert(moves[i])
                     if len(moves) > 0:
                         return moves
                     
@@ -212,11 +292,10 @@ def main():
     Board, Pieces = createBoard()
     printBoard(Board, Pieces)
     currentMove = input()
-    isPossible = True
     while True:
         try:
             currentLocation = inputConvert(currentMove)
-        except UnboundLocalError:
+        except:
             print("That space does not exist. Please enter a new one:")
             currentMove = input()
         else:
