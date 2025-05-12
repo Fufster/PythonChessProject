@@ -1,3 +1,5 @@
+import sys
+
 class Piece:
     def __init__(self, color, rank):
         self.color = color
@@ -73,6 +75,63 @@ class Piece:
                         return moves
             
             case 'Bishop':
+                ix = 1
+                iy = 1
+                #down-right
+                while ix < (8 - location[1]) and iy < (8 - location[0]):
+                    if Pieces[location[0]+iy][location[1]+ix].color == 'E':
+                        moves.append((location[0]+iy, location[1]+ix))
+                    else: 
+                        if Pieces[location[0]+iy][location[1]+ix].color == self.color:
+                            break
+                        if Pieces[location[0]+iy][location[1]+ix].color != self.color:
+                            moves.append((location[0]+iy, location[1]+ix))
+                            break
+                    ix = ix + 1
+                    iy = iy + 1
+                ix = 1
+                iy = 1
+                #up-right
+                while ix < (8 - location[1]) and iy <= location[0]:
+                    if Pieces[location[0]-iy][location[1]+ix].color == 'E':
+                        moves.append((location[0]-iy, location[1]+ix))
+                    else: 
+                        if Pieces[location[0]-iy][location[1]+ix].color == self.color:
+                            break
+                        if Pieces[location[0]-iy][location[1]+ix].color != self.color:
+                            moves.append((location[0]-iy, location[1]+ix))
+                            break
+                    ix = ix + 1
+                    iy = iy + 1
+                ix = 1
+                iy = 1
+                #down-left
+                while ix <= location[1] and iy < (8 - location[0]):
+                    if Pieces[location[0]+iy][location[1]-ix].color == 'E':
+                        moves.append((location[0]+iy, location[1]-ix))
+                    else: 
+                        if Pieces[location[0]+iy][location[1]-ix].color == self.color:
+                            break
+                        if Pieces[location[0]+iy][location[1]-ix].color != self.color:
+                            moves.append((location[0]+iy, location[1]-ix))
+                            break
+                    ix = ix + 1
+                    iy = iy + 1
+                ix = 1
+                iy = 1
+                #up-left
+                while ix <= location[1] and iy <= location[0]:
+                    if Pieces[location[0]-iy][location[1]-ix].color == 'E':
+                        moves.append((location[0]-iy, location[1]-ix))
+                    else: 
+                        if Pieces[location[0]-iy][location[1]-ix].color == self.color:
+                            break
+                        if Pieces[location[0]-iy][location[1]-ix].color != self.color:
+                            moves.append((location[0]-iy, location[1]-ix))
+                            break
+                    ix = ix + 1
+                    iy = iy + 1
+
                 for i in range(len(moves)):
                     moves[i] = movesConvert(moves[i])
                 if len(moves) > 0:
@@ -111,6 +170,7 @@ class Piece:
             case 'Rook':
                 ix = 1
                 iy = 1
+                #right
                 while ix < (8 - location[1]):
                     if Pieces[location[0]][location[1]+ix].color == 'E':
                         moves.append((location[0], location[1]+ix))
@@ -121,12 +181,153 @@ class Piece:
                             moves.append((location[0], location[1]+ix))
                             break
                     ix = ix + 1
+                #down
+                while iy < (8 - location[0]):
+                    if Pieces[location[0]+iy][location[1]].color == 'E':
+                        moves.append((location[0]+iy, location[1]))
+                    else: 
+                        if Pieces[location[0]+iy][location[1]].color == self.color:
+                            break
+                        if Pieces[location[0]+iy][location[1]].color != self.color:
+                            moves.append((location[0]+iy, location[1]))
+                            break
+                    iy = iy + 1
+                ix = 1
+                iy = 1
+                #left
+                while ix <= location[1]:
+                    if Pieces[location[0]][location[1]-ix].color == 'E':
+                        moves.append((location[0], location[1]-ix))
+                    else: 
+                        if Pieces[location[0]][location[1]-ix].color == self.color:
+                            break
+                        if Pieces[location[0]][location[1]-ix].color != self.color:
+                            moves.append((location[0], location[1]-ix))
+                            break
+                    ix = ix + 1
+                #up
+                while iy <= location[0]:
+                    if Pieces[location[0]-iy][location[1]].color == 'E':
+                        moves.append((location[0]-iy, location[1]))
+                    else: 
+                        if Pieces[location[0]-iy][location[1]].color == self.color:
+                            break
+                        if Pieces[location[0]-iy][location[1]].color != self.color:
+                            moves.append((location[0]-iy, location[1]))
+                            break
+                    iy = iy + 1
+
                 for i in range(len(moves)):
                     moves[i] = movesConvert(moves[i])
                 if len(moves) > 0:
                     return moves
                 
             case 'Queen':
+                ix = 1
+                iy = 1
+                #right
+                while ix < (8 - location[1]):
+                    if Pieces[location[0]][location[1]+ix].color == 'E':
+                        moves.append((location[0], location[1]+ix))
+                    else: 
+                        if Pieces[location[0]][location[1]+ix].color == self.color:
+                            break
+                        if Pieces[location[0]][location[1]+ix].color != self.color:
+                            moves.append((location[0], location[1]+ix))
+                            break
+                    ix = ix + 1
+                #down
+                while iy < (8 - location[0]):
+                    if Pieces[location[0]+iy][location[1]].color == 'E':
+                        moves.append((location[0]+iy, location[1]))
+                    else: 
+                        if Pieces[location[0]+iy][location[1]].color == self.color:
+                            break
+                        if Pieces[location[0]+iy][location[1]].color != self.color:
+                            moves.append((location[0]+iy, location[1]))
+                            break
+                    iy = iy + 1
+                ix = 1
+                iy = 1
+                #left
+                while ix <= location[1]:
+                    if Pieces[location[0]][location[1]-ix].color == 'E':
+                        moves.append((location[0], location[1]-ix))
+                    else: 
+                        if Pieces[location[0]][location[1]-ix].color == self.color:
+                            break
+                        if Pieces[location[0]][location[1]-ix].color != self.color:
+                            moves.append((location[0], location[1]-ix))
+                            break
+                    ix = ix + 1
+                #up
+                while iy <= location[0]:
+                    if Pieces[location[0]-iy][location[1]].color == 'E':
+                        moves.append((location[0]-iy, location[1]))
+                    else: 
+                        if Pieces[location[0]-iy][location[1]].color == self.color:
+                            break
+                        if Pieces[location[0]-iy][location[1]].color != self.color:
+                            moves.append((location[0]-iy, location[1]))
+                            break
+                    iy = iy + 1
+                ix = 1
+                iy = 1
+                #down-right
+                while ix < (8 - location[1]) and iy < (8 - location[0]):
+                    if Pieces[location[0]+iy][location[1]+ix].color == 'E':
+                        moves.append((location[0]+iy, location[1]+ix))
+                    else: 
+                        if Pieces[location[0]+iy][location[1]+ix].color == self.color:
+                            break
+                        if Pieces[location[0]+iy][location[1]+ix].color != self.color:
+                            moves.append((location[0]+iy, location[1]+ix))
+                            break
+                    ix = ix + 1
+                    iy = iy + 1
+                ix = 1
+                iy = 1
+                #up-right
+                while ix < (8 - location[1]) and iy <= location[0]:
+                    if Pieces[location[0]-iy][location[1]+ix].color == 'E':
+                        moves.append((location[0]-iy, location[1]+ix))
+                    else: 
+                        if Pieces[location[0]-iy][location[1]+ix].color == self.color:
+                            break
+                        if Pieces[location[0]-iy][location[1]+ix].color != self.color:
+                            moves.append((location[0]-iy, location[1]+ix))
+                            break
+                    ix = ix + 1
+                    iy = iy + 1
+                ix = 1
+                iy = 1
+                #down-left
+                while ix <= location[1] and iy < (8 - location[0]):
+                    if Pieces[location[0]+iy][location[1]-ix].color == 'E':
+                        moves.append((location[0]+iy, location[1]-ix))
+                    else: 
+                        if Pieces[location[0]+iy][location[1]-ix].color == self.color:
+                            break
+                        if Pieces[location[0]+iy][location[1]-ix].color != self.color:
+                            moves.append((location[0]+iy, location[1]-ix))
+                            break
+                    ix = ix + 1
+                    iy = iy + 1
+                ix = 1
+                iy = 1
+                #up-left
+                while ix <= location[1] and iy <= location[0]:
+                    if Pieces[location[0]-iy][location[1]-ix].color == 'E':
+                        moves.append((location[0]-iy, location[1]-ix))
+                    else: 
+                        if Pieces[location[0]-iy][location[1]-ix].color == self.color:
+                            break
+                        if Pieces[location[0]-iy][location[1]-ix].color != self.color:
+                            moves.append((location[0]-iy, location[1]-ix))
+                            break
+                    ix = ix + 1
+                    iy = iy + 1
+                
                 for i in range(len(moves)):
                     moves[i] = movesConvert(moves[i])
                 if len(moves) > 0:
@@ -288,22 +489,68 @@ def printBoard(Board, Pieces):
                 print(Board[x][y], end="")
         print()
 
+def move(Board, Pieces, currentLocation, moveLocation):
+    if Pieces[moveLocation[0]][moveLocation[1]].rank == 'King':
+        match Pieces[currentLocation[0]][currentLocation[1]].color:
+            case 'W':
+                print("White Wins!")
+            case 'B':
+                print("Black Wins!")
+        printBoard(Board, Pieces)
+        sys.exit()
+
+    if Pieces[moveLocation[0]][moveLocation[1]].color != 'E':
+        Pieces[moveLocation[0]][moveLocation[1]] = Piece('E', 'Empty')
+    Pieces[moveLocation[0]][moveLocation[1]], Pieces[currentLocation[0]][currentLocation[1]] = Pieces[currentLocation[0]][currentLocation[1]], Pieces[moveLocation[0]][moveLocation[1]]
+
 def main():
     Board, Pieces = createBoard()
-    printBoard(Board, Pieces)
-    currentMove = input()
     while True:
-        try:
-            currentLocation = inputConvert(currentMove)
-        except:
-            print("That space does not exist. Please enter a new one:")
-            currentMove = input()
-        else:
+        printBoard(Board, Pieces)
+        currentPiece = input("Please enter a space: ")
+        while True:
+            if currentPiece == 'q' or currentPiece == 'Q':
+                    break
+            try:
+                currentLocation = inputConvert(currentPiece)
+            except:
+                print("That space does not exist, please enter a new one: ")
+                currentPiece = input()
+            else:
+                currentPiece = Pieces[currentLocation[0]][currentLocation[1]]
+                if currentPiece.color == 'E':
+                    print("That space is empty, please enter a new one: ")
+                    currentPiece = input()
+                else:
+                    break
+        if currentPiece == 'q' or currentPiece == 'Q':
             break
 
-    currentPiece = Pieces[currentLocation[0]][currentLocation[1]]
-    print(currentPiece.rank)
-    print(f"Possible Moves: {currentPiece.getMoves(currentLocation, Pieces)}")
+        print(currentPiece.rank)
+        print(f"Possible Moves: {currentPiece.getMoves(currentLocation, Pieces)}")
+        
+        currentMove = input("Enter a space to move to, or type 'back' to select a different space: ")
+        if currentMove == 'back':
+            continue
+        while True:
+            match = False
+            try:
+                moveLocation = inputConvert(currentMove)
+            except:
+                print("That space does not exist, please enter a new one: ")
+                currentMove = input()
+            else:
+                for item in currentPiece.getMoves(currentLocation, Pieces):
+                    if currentMove.upper() == item:
+                        match = True
+                if match == True:
+                    break
+                print("That is not in the list of valid moves, please enter a new one: ")
+                currentMove = input()
+        
+        move(Board, Pieces, currentLocation, moveLocation)
+
+
 
 
 if __name__ == "__main__":
