@@ -490,18 +490,28 @@ def printBoard(Board, Pieces):
         print()
 
 def move(Board, Pieces, currentLocation, moveLocation):
+    end = False
     if Pieces[moveLocation[0]][moveLocation[1]].rank == 'King':
         match Pieces[currentLocation[0]][currentLocation[1]].color:
             case 'W':
-                print("White Wins!")
+                winner = 'White'
             case 'B':
-                print("Black Wins!")
-        printBoard(Board, Pieces)
-        sys.exit()
+                winner = 'Black'
+        end = True   
 
     if Pieces[moveLocation[0]][moveLocation[1]].color != 'E':
         Pieces[moveLocation[0]][moveLocation[1]] = Piece('E', 'Empty')
     Pieces[moveLocation[0]][moveLocation[1]], Pieces[currentLocation[0]][currentLocation[1]] = Pieces[currentLocation[0]][currentLocation[1]], Pieces[moveLocation[0]][moveLocation[1]]
+
+    if Pieces[moveLocation[0]][moveLocation[1]].rank == 'Pawn' and moveLocation[0] == 7:
+        Pieces[moveLocation[0]][moveLocation[1]].rank = 'Queen'
+    if Pieces[moveLocation[0]][moveLocation[1]].rank == 'Pawn' and moveLocation[0] == 0:
+        Pieces[moveLocation[0]][moveLocation[1]].rank = 'Queen'
+
+    if end == True:
+        printBoard(Board, Pieces)
+        print(f"{winner} Wins!")
+        sys.exit()
 
 def main():
     Board, Pieces = createBoard()
@@ -528,7 +538,12 @@ def main():
 
         print(currentPiece.rank)
         print(f"Possible Moves: {currentPiece.getMoves(currentLocation, Pieces)}")
-        
+        try:
+            for item in currentPiece.getMoves(currentLocation, Pieces):
+                break
+        except:
+            print("This piece cannot move.")
+            continue
         currentMove = input("Enter a space to move to, or type 'back' to select a different space: ")
         if currentMove == 'back':
             continue
@@ -549,9 +564,6 @@ def main():
                 currentMove = input()
         
         move(Board, Pieces, currentLocation, moveLocation)
-
-
-
 
 if __name__ == "__main__":
     main()
